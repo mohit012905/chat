@@ -6,20 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
-{
-    Schema::table('messages', function (Blueprint $table) {
-        $table->boolean('is_seen')->default(false);
-    });
-}
+    {
+        if (Schema::hasTable('messages')) {
 
-public function down(): void
-{
-    Schema::table('messages', function (Blueprint $table) {
-        $table->dropColumn('is_seen');
-    });
-}
+            Schema::table('messages', function (Blueprint $table) {
+
+                if (!Schema::hasColumn('messages', 'is_seen')) {
+                    $table->boolean('is_seen')->default(false);
+                }
+
+            });
+
+        }
+    }
+
+    public function down(): void
+    {
+        if (Schema::hasTable('messages') &&
+            Schema::hasColumn('messages', 'is_seen')) {
+
+            Schema::table('messages', function (Blueprint $table) {
+                $table->dropColumn('is_seen');
+            });
+
+        }
+    }
 };
