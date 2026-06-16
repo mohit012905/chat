@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Contact;
+use App\Models\ChatRequest;
 
 class User extends Authenticatable
 {
@@ -57,4 +59,18 @@ class User extends Authenticatable
             $user->unique_code = $code;
         });
     }
+   public function contacts()
+{
+    return $this->hasMany(Contact::class, 'user_id');
+}
+
+public function receivedRequests()
+{
+    return $this->hasMany(ChatRequest::class, 'receiver_id');
+}
+
+public function sentRequests()
+{
+    return $this->hasMany(ChatRequest::class, 'sender_id');
+}
 }

@@ -3,15 +3,7 @@
 <div class="py-8">
     <div class="max-w-4xl mx-auto px-6">
 
-<!-- Back Button -->
-<div class="mb-4">
-    <a href="{{ route('dashboard') }}"
-       class="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl shadow transition">
 
-        ← Back to Dashboard
-
-    </a>
-</div>
     <!-- Header Card -->
     <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl shadow-lg p-8 mb-6">
         <h1 class="text-3xl font-bold">
