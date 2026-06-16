@@ -53,7 +53,7 @@ class ChatController extends Controller
         ]);
 
         $request->validate([
-            'message' => 'required|max:5000',
+            'message' => 'required|max:5000000',
             'receiver_id' => 'required|exists:users,id'
         ]);
 
@@ -78,5 +78,24 @@ class ChatController extends Controller
     return response()->json([
         'success' => true
     ]);
+}
+public function fetchMessages($id)
+{
+    $messages = Message::where(function ($q) use ($id) {
+
+            $q->where('sender_id', auth()->id())
+              ->where('receiver_id', $id);
+
+        })
+        ->orWhere(function ($q) use ($id) {
+
+            $q->where('sender_id', $id)
+              ->where('receiver_id', auth()->id());
+
+        })
+        ->orderBy('id')
+        ->get();
+
+    return view('chat.partials.messages', compact('messages'));
 }
 }

@@ -1,185 +1,213 @@
-<meta http-equiv="refresh" content="5">
-
 <x-app-layout>
 
-<div class="max-w-6xl mx-auto px-4 py-4 h-[90vh]">
+<div class="max-w-7xl mx-auto px-6 py-6">
 
-<div class="bg-white rounded-3xl shadow-xl overflow-hidden h-full flex flex-col">
+    <div class="bg-white border border-slate-200 rounded-[32px] shadow-xl overflow-hidden h-[80vh] flex flex-col">
 
-    <!-- Chat Header -->
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-5 flex items-center">
+        <!-- HEADER -->
+        <div class="px-8 py-5 border-b border-slate-200 bg-white">
 
-        @if($receiver->profile_photo)
+            <div class="flex items-center justify-between">
 
-    <img src="{{ asset('storage/' . $receiver->profile_photo) }}"
-         class="w-14 h-14 rounded-full object-cover border-2 border-white">
+                <div class="flex items-center gap-4">
 
-@else
+                    <a href="{{ route('contacts.index') }}"
+                       class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition">
+                        ←
+                    </a>
 
-    <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-        👤
-    </div>
+                    @if($receiver->profile_photo)
 
-@endif
-        <div class="ml-4">
+                        <img
+                            src="{{ asset('storage/' . $receiver->profile_photo) }}"
+                            class="w-14 h-14 rounded-2xl object-cover">
 
-            <h2 class="text-xl font-bold">
-                {{ $receiver->name }}
-            </h2>
+                    @else
 
-            <p class="text-blue-100 text-sm">
-
-    @if($receiver->last_seen)
-
-        @if($receiver->last_seen->gt(now()->subMinutes(2)))
-
-            🟢 Online
-
-        @else
-
-            🕒 Last seen {{ $receiver->last_seen->diffForHumans() }}
-
-        @endif
-
-    @else
-
-        ⚪ Never seen
-
-    @endif
-
-</p>
-
-        </div>
-
-    </div>
-
-    <!-- Messages Section -->
-    <div id="chat-box"
-         class="flex-1 overflow-y-auto p-6 bg-gray-100">
-
-        @forelse($messages as $message)
-
-            @if($message->sender_id == auth()->id())
-
-                <!-- My Message -->
-                <div class="flex justify-end mb-4">
-
-                    <div class="max-w-md">
-
-                        <div class="bg-blue-600 text-white px-4 py-3 rounded-2xl rounded-br-sm shadow">
-
-                            {{ $message->message }}
-
+                        <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-xl">
+                            👤
                         </div>
 
-                        <div class="text-right text-xs text-gray-500 mt-1">
+                    @endif
 
-                            {{ $message->created_at->format('h:i A') }}
+                    <div>
 
-                            @if($message->is_seen)
-                                ✓✓ Seen
+                        <h2 class="text-xl font-bold text-slate-900">
+                            {{ $receiver->name }}
+                        </h2>
+
+                        @if($receiver->last_seen)
+
+                            @if($receiver->last_seen->gt(now()->subMinutes(2)))
+
+                                <p class="text-green-600 text-sm font-medium">
+                                    ● Online
+                                </p>
+
                             @else
-                                ✓ Sent
+
+                                <p class="text-slate-500 text-sm">
+                                    Last seen {{ $receiver->last_seen->diffForHumans() }}
+                                </p>
+
                             @endif
 
-                        </div>
+                        @endif
 
                     </div>
-
-                </div>
-
-            @else
-
-                <!-- Receiver Message -->
-                <div class="flex justify-start mb-4">
-
-                    <div class="max-w-md">
-
-                        <div class="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-bl-sm shadow">
-
-                            {{ $message->message }}
-
-                        </div>
-
-                        <div class="text-xs text-gray-500 mt-1">
-
-                            {{ $message->created_at->format('h:i A') }}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            @endif
-
-        @empty
-
-            <div class="flex items-center justify-center h-full">
-
-                <div class="text-center">
-
-                    <div class="text-6xl mb-4">
-                        💬
-                    </div>
-
-                    <h3 class="text-xl font-bold text-gray-700">
-                        No Messages Yet
-                    </h3>
-
-                    <p class="text-gray-500">
-                        Start your secure conversation.
-                    </p>
 
                 </div>
 
             </div>
 
-        @endforelse
+        </div>
 
-    </div>
+        <!-- MESSAGES -->
 
-    <!-- Fixed Message Input -->
-    <form method="POST"
-          action="{{ route('chat.send') }}"
-          class="border-t bg-white p-4">
-        @csrf
+        <div
+            id="chat-box"
+            class="flex-1 overflow-y-auto bg-slate-50 p-8">
 
-        <input type="hidden"
-               name="receiver_id"
-               value="{{ $receiver->id }}">
+            <div id="messages-container">
 
-        <div class="flex items-center gap-3">
+                @include('chat.partials.messages')
 
-            <input type="text"
-                   name="message"
-                   placeholder="Type your message..."
-                   class="flex-1 border border-gray-300 rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                   required>
-
-            <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold shadow-lg">
-
-                🚀 Send
-
-            </button>
+            </div>
 
         </div>
 
-    </form>
+        <!-- COMPOSER -->
 
-</div>
+        <div class="border-t border-slate-200 bg-white p-5">
+
+            <form
+    id="chat-form"
+    method="POST"
+    action="{{ route('chat.send') }}"
+                class="flex items-center gap-4">
+
+                @csrf
+
+                <input
+                    type="hidden"
+                    name="receiver_id"
+                    value="{{ $receiver->id }}">
+
+               <input
+    id="message-input"
+    type="text"
+    name="message"
+    autocomplete="off"
+    spellcheck="false"
+    placeholder="Type your message..."
+    class="flex-1 h-14 px-5 rounded-2xl border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+    required>
+
+                <button
+                    type="submit"
+                    class="h-14 px-8 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition">
+
+                    Send
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    let chatBox = document.getElementById("chat-box");
+    const chatBox = document.getElementById("chat-box");
+    const input = document.getElementById("message-input");
+    const form = document.getElementById("chat-form");
 
+    // Scroll to latest message on first load
     chatBox.scrollTop = chatBox.scrollHeight;
 
+    // Restore draft
+    input.value = localStorage.getItem("chat_draft") || "";
+
+    // Save draft while typing
+    input.addEventListener("input", function () {
+
+        localStorage.setItem(
+            "chat_draft",
+            this.value
+        );
+
+    });
+
+    // Clear draft + input after sending
+    form.addEventListener("submit", function () {
+
+        localStorage.removeItem("chat_draft");
+
+        setTimeout(() => {
+
+            input.value = "";
+
+        }, 50);
+
+    });
+
+    function refreshMessages() {
+
+        fetch("{{ route('chat.fetch', $receiver->id) }}", {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Failed to load messages");
+            }
+
+            return response.text();
+
+        })
+        .then(html => {
+
+            const nearBottom =
+                chatBox.scrollHeight -
+                chatBox.scrollTop -
+                chatBox.clientHeight < 150;
+
+            document.getElementById(
+                "messages-container"
+            ).innerHTML = html;
+
+            // Auto-scroll only if user is already near bottom
+            if (nearBottom) {
+
+                chatBox.scrollTop =
+                    chatBox.scrollHeight;
+
+            }
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Message refresh failed:",
+                error
+            );
+
+        });
+
+    }
+
+    // Refresh every 3 seconds
+    setInterval(refreshMessages, 3000);
+
 });
+
 </script>
 
 </x-app-layout>

@@ -59,6 +59,10 @@ Route::post('/typing', [ChatController::class, 'typing'])
     '/profile/upload-photo',
     [ProfileController::class, 'uploadPhoto']
 )->name('profile.photo');
+Route::get(
+    '/chat/fetch/{id}',
+    [ChatController::class, 'fetchMessages']
+)->name('chat.fetch');
 }); // <-- IMPORTANT
 
 require __DIR__.'/auth.php';
