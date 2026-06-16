@@ -1,128 +1,269 @@
 <x-guest-layout>
 
-<div class="w-full">
+<div class="min-h-screen bg-slate-50 py-12">
 
-    <!-- Header -->
-    <div class="text-center mb-8">
-        <h1 class="text-4xl font-extrabold text-blue-600">
-            🔒 Secure Messenger
-        </h1>
+    <div class="max-w-7xl mx-auto px-6">
 
-        <p class="text-gray-500 mt-2">
-            Create your secure account and start encrypted communication.
-        </p>
-    </div>
+        <div
+            class="grid lg:grid-cols-[55%_45%]
+            bg-white
+            rounded-[40px]
+            shadow-[0_20px_80px_rgba(0,0,0,0.08)]
+            overflow-hidden">
 
-    <!-- Registration Card -->
-    <div class="bg-white shadow-2xl rounded-3xl p-8">
+        <!-- LEFT SIDE -->
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        <div
+            class="hidden lg:flex flex-col justify-between overflow-y-auto
+            bg-gradient-to-br from-[#5865F2] via-[#4F5BD5] to-[#3B45B8]
+            text-white px-12 py-8">
 
-            <!-- Name -->
+            <!-- Logo -->
+
             <div>
-                <x-input-label for="name" :value="__('Full Name')" />
+                <div class="flex items-center gap-4">
 
-                <x-text-input
-                    id="name"
-                    class="block mt-2 w-full rounded-xl"
-                    type="text"
-                    name="name"
-                    :value="old('name')"
-                    required
-                    autofocus
-                    autocomplete="name"
-                    placeholder="Enter your full name"
-                />
+                    <div
+                        class="w-14 h-14 rounded-3xl bg-white/20 flex items-center justify-center text-2xl">
 
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        🔒
+
+                    </div>
+
+                    <div>
+
+                        <h1 class="text-2xl font-black">
+                            Secure Messenger
+                        </h1>
+
+                        <p class="text-indigo-100">
+                            Private Communication Platform
+                        </p>
+
+                    </div>
+
+                </div>
             </div>
 
-            <!-- Email -->
-            <div class="mt-5">
-                <x-input-label for="email" :value="__('Email Address')" />
+            <!-- Main Content -->
 
-                <x-text-input
-                    id="email"
-                    class="block mt-2 w-full rounded-xl"
-                    type="email"
-                    name="email"
-                    :value="old('email')"
-                    required
-                    autocomplete="username"
-                    placeholder="example@email.com"
-                />
+            <div>
 
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
+                <span
+                    class="inline-flex px-4 py-2 rounded-full bg-white/10 border border-white/20">
 
-            <!-- Password -->
-            <div class="mt-5">
-                <x-input-label for="password" :value="__('Password')" />
+                    Secure Communication Platform
 
-                <x-text-input
-                    id="password"
-                    class="block mt-2 w-full rounded-xl"
-                    type="password"
-                    name="password"
-                    required
-                    autocomplete="new-password"
-                    placeholder="Create a strong password"
-                />
+                </span>
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+                <h2
+                    class="mt-6 text-5xl xl:text-6xl font-black leading-tight">
 
-            <!-- Confirm Password -->
-            <div class="mt-5">
-                <x-input-label
-                    for="password_confirmation"
-                    :value="__('Confirm Password')"
-                />
+                    Connect Only
 
-                <x-text-input
-                    id="password_confirmation"
-                    class="block mt-2 w-full rounded-xl"
-                    type="password"
-                    name="password_confirmation"
-                    required
-                    autocomplete="new-password"
-                    placeholder="Confirm your password"
-                />
+                    <br>
 
-                <x-input-error
-                    :messages="$errors->get('password_confirmation')"
-                    class="mt-2"
-                />
-            </div>
+                    With People
 
-            <!-- Buttons -->
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-8 gap-4">
+                    <br>
 
-                <a
-                    href="{{ route('login') }}"
-                    class="text-blue-600 hover:text-blue-800 font-medium"
-                >
-                    Already have an account?
-                </a>
+                    You Trust
 
-                <button
-                    type="submit"
-                    class="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition duration-300"
-                >
-                    Create Account 🚀
-                </button>
+                </h2>
+
+                <p
+                    class="mt-6 text-lg text-indigo-100 max-w-lg">
+
+                    Build trusted connections through unique identity codes,
+                    approve requests and communicate securely.
+
+                </p>
+
+                <div class="space-y-4 mt-8">
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+                            ✓
+                        </div>
+                        <span>Unique Identity Codes</span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+                            ✓
+                        </div>
+                        <span>Request-Based Connections</span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+                            ✓
+                        </div>
+                        <span>Private Messaging</span>
+                    </div>
+
+                </div>
 
             </div>
 
-        </form>
+            <div class="text-indigo-200 text-sm">
 
-    </div>
+                © {{ date('Y') }} Secure Messenger
 
-    <!-- Footer -->
-    <div class="text-center mt-6 text-sm text-gray-500">
-        Your account will automatically receive a unique 6-digit Secure Messenger code.
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+
+        <div
+            class="flex items-center justify-center px-6 py-8 overflow-y-auto">
+
+            <div class="w-full max-w-lg">
+
+                <div class="text-center mb-8">
+
+                    <h2 class="text-4xl font-black text-slate-900">
+
+                        Create Account
+
+                    </h2>
+
+                    <p class="mt-2 text-slate-500">
+
+                        Start your secure messaging journey
+
+                    </p>
+
+                </div>
+
+                <div
+                    class="bg-white rounded-[28px] border border-slate-200 p-8 shadow-xl">
+
+                    <form
+                        method="POST"
+                        action="{{ route('register') }}"
+                        class="space-y-4">
+
+                        @csrf
+
+                        <div>
+
+                            <label class="block text-sm font-medium mb-2">
+
+                                Full Name
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ old('name') }}"
+                                required
+                                autofocus
+                                placeholder="John Doe"
+                                class="w-full h-12 px-4 rounded-xl border border-slate-300 focus:border-[#5865F2] focus:ring-[#5865F2]">
+
+                            <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+
+                        </div>
+
+                        <div>
+
+                            <label class="block text-sm font-medium mb-2">
+
+                                Email Address
+
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                required
+                                placeholder="john@example.com"
+                                class="w-full h-12 px-4 rounded-xl border border-slate-300 focus:border-[#5865F2] focus:ring-[#5865F2]">
+
+                            <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+
+                        </div>
+
+                        <div>
+
+                            <label class="block text-sm font-medium mb-2">
+
+                                Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                required
+                                placeholder="Create password"
+                                class="w-full h-12 px-4 rounded-xl border border-slate-300 focus:border-[#5865F2] focus:ring-[#5865F2]">
+
+                            <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+
+                        </div>
+
+                        <div>
+
+                            <label class="block text-sm font-medium mb-2">
+
+                                Confirm Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                required
+                                placeholder="Confirm password"
+                                class="w-full h-12 px-4 rounded-xl border border-slate-300 focus:border-[#5865F2] focus:ring-[#5865F2]">
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="w-full h-12 rounded-xl bg-[#5865F2] text-white font-semibold hover:bg-[#4752C4] transition">
+
+                            Create Account
+
+                        </button>
+
+                    </form>
+
+                    <div class="border-t border-slate-200 mt-6 pt-6">
+
+                        <p class="text-center text-sm text-slate-500">
+
+                            You'll automatically receive a secure identity code.
+
+                        </p>
+
+                        <div class="text-center mt-4">
+
+                            <a
+                                href="{{ route('login') }}"
+                                class="font-semibold text-[#5865F2] hover:underline">
+
+                                Already have an account? Sign In
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
+
 </x-guest-layout>
