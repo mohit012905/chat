@@ -916,12 +916,12 @@ $unseen = \App\Models\Message::where('is_seen',false)->count();
 
                 <img
                     src="{{ asset('storage/'.optional($message->sender)->profile_photo) }}"
-                    class="w-12 h-12 rounded-xl object-cover">
+                    class="w-8 h-8 rounded-xl object-cover">
 
             @else
 
                 <div
-                    class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
+                    class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
 
                     {{ strtoupper(substr(optional($message->sender)->name ?? 'U',0,1)) }}
 
@@ -953,18 +953,18 @@ $unseen = \App\Models\Message::where('is_seen',false)->count();
 
     <td class="px-6 py-6">
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1">
 
             @if(optional($message->receiver)->profile_photo)
 
                 <img
                     src="{{ asset('storage/'.optional($message->receiver)->profile_photo) }}"
-                    class="w-12 h-12 rounded-xl object-cover">
+                    class="w-8 h-8 rounded-xl object-cover">
 
             @else
 
                 <div
-                    class="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                    class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
 
                     {{ strtoupper(substr(optional($message->receiver)->name ?? 'U',0,1)) }}
 
@@ -1022,27 +1022,21 @@ $unseen = \App\Models\Message::where('is_seen',false)->count();
 
     <!-- Date -->
 
-    <td class="px-6 py-6">
+    <td class="px-6 py-6 whitespace-nowrap text-center">
 
-        <p class="font-medium text-slate-700">
+    <div class="font-semibold text-slate-700">
+        {{ $message->created_at->format('d M Y') }}
+    </div>
 
-            {{ $message->created_at->format('d M Y') }}
+    <div class="text-sm text-slate-500">
+        {{ $message->created_at->format('h:i A') }}
+    </div>
 
-        </p>
+    <div class="text-xs text-slate-400">
+        {{ $message->created_at->diffForHumans() }}
+    </div>
 
-        <p class="text-sm text-slate-500">
-
-            {{ $message->created_at->format('h:i A') }}
-
-        </p>
-
-        <span class="text-xs text-indigo-600">
-
-            {{ $message->created_at->diffForHumans() }}
-
-        </span>
-
-    </td>
+</td>
 
     <!-- Action -->
 
