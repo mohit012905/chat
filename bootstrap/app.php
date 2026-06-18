@@ -4,20 +4,42 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
+use App\Http\Middleware\UpdateLastSeen;
+use App\Http\Middleware\AdminMiddleware;
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
-        channels: __DIR__.'/../routes/channels.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
+        channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
     )
-    ->withMiddleware(function ($middleware) {
 
-    $middleware->append(
-        \App\Http\Middleware\UpdateLastSeen::class
-    );
+    ->withMiddleware(function (Middleware $middleware) {
 
-})
+        /*
+        |--------------------------------------------------------------------------
+        | Global Middleware
+        |--------------------------------------------------------------------------
+        */
+
+        $middleware->append(UpdateLastSeen::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Route Middleware Aliases
+        |--------------------------------------------------------------------------
+        */
+
+        $middleware->alias([
+            'admin' => AdminMiddleware::class,
+        ]);
+
+    })
+
     ->withExceptions(function (Exceptions $exceptions): void {
+
         //
-    })->create();
+    })
+
+    ->create();

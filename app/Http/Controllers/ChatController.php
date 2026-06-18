@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class ChatController extends Controller
 {
@@ -58,11 +59,11 @@ class ChatController extends Controller
         ]);
 
         Message::create([
-            'sender_id'   => auth()->id(),
-            'receiver_id' => $request->receiver_id,
-            'message'     => $request->message,
-            'is_seen'     => false
-        ]);
+    'sender_id'   => auth()->id(),
+    'receiver_id' => $request->receiver_id,
+    'message'     => Crypt::encryptString($request->message),
+    'is_seen'     => false,
+]);
 
         return redirect()->route(
             'chat.index',
